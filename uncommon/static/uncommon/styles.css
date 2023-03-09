@@ -54,15 +54,13 @@ input[type="submit"] {
 
 #two #final_booking{
   margin-top: -120px;
+
 }
 
-#final_booking h1 {
-  margin-bottom: 0;
-  margin-top: -15px;
-}
 
-#final_booking h3 {
-  margin-top: 0;
+
+#two #final_booking h1 {
+  margin-top: -10px;
 }
 
 #two h5 {

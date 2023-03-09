@@ -4,9 +4,18 @@ document.addEventListener('DOMContentLoaded', ()=>{
         searchLocations();
         validate();
     });
-    document.getElementById('budget').addEventListener('input', validate);
-    document.getElementById('start_date').addEventListener('input', validate);
-    document.getElementById('end_date').addEventListener('input', validate);
+    document.getElementById('budget').addEventListener('input', function(){
+        validate();
+        searchLocations();
+    });
+    document.getElementById('start_date').addEventListener('input', function(){
+        validate();
+        searchLocations();
+    });
+    document.getElementById('end_date').addEventListener('input', function(){
+        validate();
+        searchLocations();
+    });
     document.getElementById('submit_form').addEventListener('click', checkFlight);
 
 });
