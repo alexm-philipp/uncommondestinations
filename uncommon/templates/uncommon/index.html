@@ -1,0 +1,55 @@
+{% extends "uncommon/layout.html" %}
+{% load static %}
+
+{% block body %}
+
+<div id = "one">
+    <h1>Uncommon Destinations</h1>
+    <form action = "{% url 'searchflight'%}" method="post" id = "flight_form">
+        {% csrf_token %}
+        <label for="location-input">
+        <input type="text" id="location-input" placeholder="Departure Airport" list = "departure-options" name = "location-input"><br/>
+        <datalist id= "departure-options">
+            <option></option>
+        </datalist>
+
+        <input type = "number" placeholder="Budget" id = "budget" name= "budget"><br/>
+
+        <label for ="start_date">
+        <input type = "date" id = "start_date" name = "start_date">
+        </label>
+        <br/>
+
+        <label for = "end_date">
+        <input type = "date" id = "end_date" name = "end_date"><br/>
+        </label>
+        <br/>
+
+
+        <input type = "submit" class = "btn btn-primary" value = "Find Uncommon Destinations!" id="submit_form" disabled>
+    </form>
+</div>
+
+<div id = "two">
+
+    {% if display %}
+
+    <div id = "final_booking">
+        <h3>Fly To:</h3><h1><a href = "{{booking_token}}">{{cityTo}}</a></h1><h3>For: ${{price_data}}</h3>
+    </div>
+
+    {% else %}
+
+    <h5>No flights beyond 44 days from now </h5><br/>
+    <h5>Budget must be $200+</h5><br/>
+    <h5>{{error}}</h5>
+
+    {% endif %}
+
+</div>
+
+
+{% block script %}
+    <script src="{% static 'uncommon/index.js' %}"></script>
+{% endblock %}
+{% endblock %}
