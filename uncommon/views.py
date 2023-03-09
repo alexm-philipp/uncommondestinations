@@ -21,7 +21,7 @@ def searchflight(request):
         dateFrom_unformatted = request.POST.get('start_date')
         dateTo_unformatted = request.POST.get('end_date')
         budget = int(request.POST.get('budget'))
-        budget_depart = int(budget)
+        budget_depart = int(budget / 2)
         
         dateFrom_step = datetime.strptime(dateFrom_unformatted, "%Y-%m-%d")
         dateFrom = dateFrom_step.strftime("%d/%m/%Y")
@@ -38,6 +38,7 @@ def searchflight(request):
         data = response.json()
 
         no_go = [
+
             "ATL", "PEK", "DXB", "LAX", "HND", "ORD", "LHR", "HKG", "PVG", "CDG",
             "DFW", "CGK", "CAN", "JFK", "AMS", "SIN", "ICN", "DEL", "FRA", "IST",
             "CGH", "BKK", "DEN", "SFO", "KUL", "MAD", "BCN", "LAS", "SEA", "CTU",
@@ -67,9 +68,34 @@ def searchflight(request):
             "JRO", "BRE", "STR", "SCQ", "AGP", "JAX", "SOF", "NNG", "AJA", "LNZ",
             "BUD", "KEF", "TXL", "BKK", "LAS", "MRS", "TTN", "LUX", "KUF", "TXL",
             "DLM", "FMO", "EBB", "GOJ", "AOI", "PIA", "CJU", "MIA", "VVI", "KIV",
-            "GOT", "KJA", "BRN", "GVA", "AYT", "YYZ", "ACE", "LAN", "NWI", "PIK"
+            "GOT", "KJA", "BRN", "GVA", "AYT", "YYZ", "ACE", "LAN", "NWI", "PIK",
+            "ASP", "BWN", "GCM", "HNL", "JAC", "KSA", "LRM", "MDE", "NZA", "OVB",
+            "PUJ", "RIX", "SBY", "SZG", "UFN", "ZAD", "ALC", "BJM", "BOB", "CJB",
+            "DAR", "ENC", "FAO", "GBE", "HRG", "JUB", "KGS", "LXR", "MPM", "NBO",
+            "OTP", "PNQ", "RBE", "SKB", "TIA", "ULN", "VRA", "WIL", "XGG", "YEG",
+            "ZQN", "AMA", "BLQ", "CCS", "DCA", "ELL", "FUG", "GAF", "HET", "INI",
+            "JDO", "KAN", "LBE", "MBJ", "NGS", "OAJ", "PZB", "QRO", "RBA", "SBN",
+            "TIA", "UPG", "VBY", "WRO", "XMH", "YBP", "ZCL", "ACC", "BFI", "CEK",
+            "DBV", "EKO", "FSC", "GJA", "HTR", "IGA", "JLR", "KRR", "LIM", "MHD",
+            "NOU", "OIT", "PEI", "QPG", "RMI", "SJU", "TGU", "URA", "VSA", "WNA",
+            "XFN", "YCU", "ZZU", "AWZ", "BJI", "CHX", "DIO", "EYP", "FDO", "GGT",
+            "HIR", "IFN", "JUB", "KBL", "LWY", "MBT", "NBS", "OMH", "PNH", "QUI",
+            "RRI", "SFK", "TAK", "URA", "VDC", "WTS", "XIL", "YTY", "ZER", "ATA",
+            "BXO", "CIX", "DIJ", "EGC", "FHU", "GLS", "HNA", "IOA", "JNN", "KKJ",
+            "LXS", "MNF", "NCA", "OGG", "PYH", "QHV", "RYK", "SHA", "TBT", "UBJ",
+            "VGO", "WJA", "YVQ", "ZAZ", "ABR", "BWN", "CLJ", "DGT", "ELP", "FMO",
+            "GEL", "HUX", "IMT", "JSI", "KSW", "LBF", "MFR", "NGS", "OXD", "PIE",
+            "QOW", "ROV", "SMX", "TBZ", "UID", "VLL", "WAA", "YUT", "ZVE", "ABB",
+            "BGM", "CPV", "DJJ", "ELH", "FLN", "GGG", "HAC", "IOS", "JXA", "KGI",
+            "LAT", "MTJ", "NUL", "OAG", "PNG", "QBC", "RFP", "SXK", "TAO", "UPN",
+            "VVO", "WYA", "YLO", "ZUH", "ASV", "BYC", "CTD", "DSM", "EXT", "FCA",
+            "GRB", "HVF", "IGG", "JLR", "KAC", "LLP", "MDZ", "NUF", "ORN", "PEZ",
+            "QQD", "ROO", "SRV", "SYS", "TAX", "UCY", "VDM", "WTD", "XYL", "YQT",
+            "ZAR", "AKJ", "BEB", "CIU", "DLE", "ETZ", "FLH", "GAX", "HVS", "IAS",
+            "JIJ", "KOS", "LJU", "MTM", "NNT", "OKJ", "PDS", "QOW", "RHT", "SJU",
+            "TJM", "URJ", "VEY", "WJU", "XZM", "YQG", "ZZV"
         ]
-
+        
         def find():
             possible = []
             output_data = {}
@@ -87,6 +113,7 @@ def searchflight(request):
             return output_data
 
 
+
         try:
             find()
         except ValueError:
@@ -99,12 +126,29 @@ def searchflight(request):
         booking_token = booking_first['deep_link']
         cityTo_data = booking_first['cityTo']
         price_data = booking_first['price']
+        flyTo_data = booking_first['flyTo']
+        
+        """making return request"""
+
+        url_return = f'https://api.tequila.kiwi.com/v2/search?fly_from={flyTo_data}&flyTo={user_input}&dateFrom={dateTo}&dateTo={dateTo}&price_to={budget_depart}&limit=100000'
+
+        response_return = requests.get(url_return, headers=headers)
+
+        data_return = response_return.json()
+
+        def findReturn():
+            for i in data_return['data']:
+                deep_link = i['deep_link']
+            return deep_link 
+    
 
         return render(request, "uncommon/index.html",{
             "booking_token": booking_token,
             "cityTo": cityTo_data,
             "price_data": price_data,
-            "display": display
+            "display": display,
+            "return": findReturn()
+
         })
 
     return render(request, "uncommon/index.html")

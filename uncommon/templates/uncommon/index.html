@@ -35,7 +35,9 @@
     {% if display %}
 
     <div id = "final_booking">
-        <h3>Fly To:</h3><h1><a href = "{{booking_token}}">{{cityTo}}</a></h1><h3>For: ${{price_data}}</h3>
+        <h4>Fly For <b>${{price_data}}</b> To:</h4>
+        <h1><a href = "{{booking_token}}">{{cityTo}}</a></h1>
+        <h1><a href = "{{return}}">Return</a></h1>
     </div>
 
     {% else %}
