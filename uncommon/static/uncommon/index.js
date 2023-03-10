@@ -16,8 +16,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
         validate();
         searchLocations();
     });
-    document.getElementById('submit_form').addEventListener('click', checkFlight);
-
 });
 
 var inList = false;

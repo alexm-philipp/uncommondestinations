@@ -37,7 +37,11 @@
     <div id = "final_booking">
         <h4>Fly For <b>${{price_data}}</b> To:</h4>
         <h1><a href = "{{booking_token}}">{{cityTo}}</a></h1>
+    {% if vb %}
         <h1><a href = "{{return}}">Return</a></h1>
+    {% else %}
+        <h6>{{error}}</h6>
+    {% endif %}
     </div>
 
     {% else %}

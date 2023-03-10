@@ -1,7 +1,7 @@
 from django.shortcuts import render
 import requests
 from django.http import JsonResponse
-from datetime import datetime
+from datetime import datetime, timedelta
 import random
 
 
@@ -28,6 +28,9 @@ def searchflight(request):
 
         dateTo_step = datetime.strptime(dateTo_unformatted, "%Y-%m-%d")
         dateTo = dateTo_step.strftime("%d/%m/%Y")
+
+        dateTo2_step = dateTo_step - timedelta(days=3)
+        dateTo2 = dateTo2_step.date().strftime("%d/%m/%Y")
 
         url = f'https://api.tequila.kiwi.com/v2/search?fly_from={user_input}&dateFrom={dateFrom}&dateTo={dateFrom}&price_to={budget_depart}&limit=100000'
 
@@ -112,13 +115,11 @@ def searchflight(request):
                     output_data = i 
             return output_data
 
-
-
         try:
             find()
         except ValueError:
             return render(request, "uncommon/index.html",{
-            "error": "Try Tweaking your query a little :)"
+            "error": "Try tweaking your query a little :)"
         })
 
 
@@ -126,29 +127,43 @@ def searchflight(request):
         booking_token = booking_first['deep_link']
         cityTo_data = booking_first['cityTo']
         price_data = booking_first['price']
-        flyTo_data = booking_first['flyTo']
-        
+        flyFrom_data = booking_first['cityCodeFrom']
+        flyTo_testing = booking_first['cityCodeTo']
+
         """making return request"""
 
-        url_return = f'https://api.tequila.kiwi.com/v2/search?fly_from={flyTo_data}&flyTo={user_input}&dateFrom={dateTo}&dateTo={dateTo}&price_to={budget_depart}&limit=100000'
+        url_return = f'https://api.tequila.kiwi.com/v2/search?fly_from={flyTo_testing}&dateFrom={dateTo2}&dateTo={dateTo}&price_to={budget_depart}&limit=100000'
 
         response_return = requests.get(url_return, headers=headers)
 
         data_return = response_return.json()
-
+    
         def findReturn():
             for i in data_return['data']:
-                deep_link = i['deep_link']
-            return deep_link 
-    
+                if i['route'][0]['cityCodeTo'] == flyFrom_data:
+                    deep_link = i['deep_link']
+                    return deep_link 
+            return None
 
+        if findReturn() is None: 
+            return_bool = False
+            return render(request, "uncommon/index.html",{
+            "booking_token": booking_token,
+            "cityTo": cityTo_data,
+            "price_data": price_data,
+            "display": display,
+            "vb": return_bool,
+            "error": "Sorry we couldn't find you a return"
+        })
+
+        return_bool = True
         return render(request, "uncommon/index.html",{
             "booking_token": booking_token,
             "cityTo": cityTo_data,
             "price_data": price_data,
             "display": display,
+            "vb": return_bool,
             "return": findReturn()
-
         })
 
     return render(request, "uncommon/index.html")

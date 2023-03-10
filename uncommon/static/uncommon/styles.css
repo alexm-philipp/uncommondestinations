@@ -8,7 +8,6 @@
   margin-top: -130px;
 }
 
-
 h1 {
   text-align: center;
   margin-bottom: 4rem; /* add more space between the title and form */
@@ -58,11 +57,14 @@ input[type="submit"] {
 }
 
 
-
 #two #final_booking h1 {
   margin-top: -10px;
 }
 
 #two h5 {
   margin-top: -85px;
+}
+
+#two h6 {
+  padding-top: 150px;
 }
