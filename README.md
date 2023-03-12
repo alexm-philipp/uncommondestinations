@@ -7,9 +7,7 @@ Uncommondestinations will return you a link through the kiwi API booking page to
 
 Users will not be able to search for flights until all the requriments are met.
 
-Returned destinations to you are chosen randomly from an aiports departure schedule on chosen date.
-
-You will not be suggested destinations of the worlds most popular airports / other big airports. 
+You will not be returned destinations to the worlds most popular airports / other big airports. 
 
 No results will return a request to tweak query. 
 
