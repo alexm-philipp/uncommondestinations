@@ -121,7 +121,10 @@ def searchflight(request):
             return render(request, "uncommon/index.html",{
             "error": "Try tweaking your query a little :)"
         })
-
+        except KeyError:
+            return render(request, "uncommon/index.html",{
+            "error": "We couldn't match your departure point with our flights"
+        })
 
         booking_first = find()
         booking_token = booking_first['deep_link']
