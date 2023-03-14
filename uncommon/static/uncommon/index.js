@@ -1,24 +1,16 @@
 document.addEventListener('DOMContentLoaded', ()=>{
 
     document.getElementById('location-input').addEventListener('input', function(){
-        searchLocations();
-        validate();
-    });
-    document.getElementById('budget').addEventListener('input', function(){
         validate();
         searchLocations();
-    });
-    document.getElementById('start_date').addEventListener('input', function(){
-        validate();
-        searchLocations();
-    });
-    document.getElementById('end_date').addEventListener('input', function(){
-        validate();
-        searchLocations();
-    });
+    })
+    document.getElementById('budget').addEventListener('input', validate)
+    document.getElementById('start_date').addEventListener('input', validate)
+    document.getElementById('end_date').addEventListener('input', validate)
+
 });
 
-var inList = false;
+let inList = false;
 
 function searchLocations(){
     var datalist = document.getElementById('departure-options');
@@ -44,6 +36,7 @@ function searchLocations(){
         }
         //no submit without flight code
         inList = data.locations.some(location => location.code === input);
+        validate();
     })
     .catch(error => console.log(error));
 }
