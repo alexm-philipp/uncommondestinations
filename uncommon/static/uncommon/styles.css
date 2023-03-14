@@ -56,7 +56,6 @@ input[type="submit"] {
 
 }
 
-
 #two #final_booking h1 {
   margin-top: -10px;
 }
@@ -66,5 +65,6 @@ input[type="submit"] {
 }
 
 #two h6 {
-  padding-top: 150px;
+  margin-top: -65px;
 }
+
