@@ -3,9 +3,9 @@ Choose a departure point, dates and a budget:
 
 Using the Kiwi locations API to make sure the three letter code is passed correctly from user input.
 
-Uncommondestinations will return you a link through the kiwi API booking page to book a flight.
+Uncommondestinations will return you a link through the kiwi API to a booking page.
 
-Users will not be able to search for flights until all the requriments are met.
+Users will not be able to search for flights until all search requriments are met.
 
 You will not be returned destinations to the worlds most popular airports / other big airports. 
 
